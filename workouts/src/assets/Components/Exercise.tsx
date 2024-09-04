@@ -1,25 +1,26 @@
 //react component to display an exersise
-import React from "react";
 import Set from "./Set";
+import { Exercise as ExcerciseType } from "../Types/WorkoutTypes";
 
 interface Props {
-  name: string;
-  sets: {
-    isAmrap: boolean;
-    repCount: number;
-    weight: number;
-    notes: string;
-  }[];
+  exercise: ExcerciseType;
+  onRepChange: (
+    repsSubmitted: number,
+    exerciseId: number,
+    repId: number
+  ) => void;
 }
 
-const Exercise = (props: Props) => {
-  //return the exercise name and the sets
+const Exercise = ({ onRepChange, exercise }: Props) => {
+  const handleRepChange = (repsSubmitted: number, setId: number) => {
+    onRepChange(repsSubmitted, exercise.id, setId);
+  };
   return (
     <div>
-      <h2>{props.name}</h2>
+      <h2>{exercise.name}</h2>
       <ul>
-        {props.sets.map((set, index) => (
-          <Set key={index} set={set} />
+        {exercise.sets.map((set, index) => (
+          <Set key={index} set={set} handleRepChange={handleRepChange} />
         ))}
       </ul>
     </div>

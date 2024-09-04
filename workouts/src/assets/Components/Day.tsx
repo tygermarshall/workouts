@@ -1,20 +1,26 @@
-import React from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import Exercise from "./Exercise";
-import { Excersise } from "../Types/WorkoutTypes";
+import {
+  Exercise as ExcerciseType,
+  Day as DayType,
+} from "../Types/WorkoutTypes";
 
 interface Props {
-  name: string;
-  excerises: Excersise[];
+  day: DayType;
+  handleRepChange: (
+    repsSubmitted: number,
+    excerciseId: number,
+    setId: number
+  ) => void;
 }
 
-const Day = ({ name, excerises, ...rest }: Props) => {
+const Day = ({ day, handleRepChange }: Props) => {
   return (
     <ListGroup>
-      {excerises.map((exercise: Excersise, index) => {
+      {day.exercises.map((exercise: ExcerciseType, index) => {
         return (
           <ListGroup.Item key={index}>
-            <Exercise name={exercise.name} sets={exercise.sets} />
+            <Exercise exercise={exercise} onRepChange={handleRepChange} />
           </ListGroup.Item>
         );
       })}

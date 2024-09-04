@@ -1,28 +1,27 @@
-interface WorkoutData {
-  workout: {
-    name: string;
-    days: {
-      name: string;
-      excerises: {
-        name: string;
-        sets: {
-          isAmrap: boolean;
-          repCount: number;
-          weight: number;
-          notes: string;
-        }[];
-      }[];
-    }[];
-  };
-}
-interface Excersise {
-  name: string;
-  sets: {
-    isAmrap: boolean;
-    repCount: number;
-    weight: number;
-    notes: string;
-  }[];
+interface Set {
+  id: number;
+  isAmrap: boolean;
+  repCount: number;
+  weight: number;
+  notes: string;
+  repsActual?: number;
 }
 
-export type { WorkoutData, Excersise };
+interface Exercise {
+  id: number;
+  name: string;
+  sets: Set[];
+}
+
+interface Day {
+  id: number;
+  name: string;
+  exercises: Exercise[];
+}
+
+interface Workout {
+  name: string;
+  days: Day[];
+}
+
+export type { Set, Exercise, Day, Workout };
