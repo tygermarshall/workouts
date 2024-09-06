@@ -1,96 +1,30 @@
 import { useState } from "react";
-import { Workout as WorkoutType } from "../Types/WorkoutTypes";
 import Day from "./Day";
-
-const workoutData: WorkoutType = {
-  name: "Test Workout",
-  days: [
-    {
-      id: 1,
-      name: "Day 1",
-      exercises: [
-        {
-          id: 1,
-          name: "Squat",
-          sets: [
-            //contains isAmarap, repCount, weight, and notes
-            {
-              id: 1,
-              isAmrap: false,
-              repCount: 5,
-              weight: 100,
-              notes: "This is a note",
-            },
-            {
-              id: 2,
-              isAmrap: true,
-              repCount: 5,
-              weight: 100,
-              notes: "This is a note",
-            },
-          ],
-        },
-        {
-          id: 2,
-          name: "Bench Press",
-          sets: [
-            //contains isAmarap, repCount, weight, and notes
-            {
-              id: 3,
-              isAmrap: false,
-              repCount: 5,
-              weight: 100,
-              notes: "This is a note",
-            },
-            {
-              id: 4,
-              isAmrap: true,
-              repCount: 5,
-              weight: 100,
-              notes: "This is a note",
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: "Day 2",
-      exercises: [
-        {
-          id: 3,
-          name: "Bench Press",
-          sets: [
-            //contains isAmarap, repCount, weight, and notes
-            {
-              id: 5,
-              isAmrap: false,
-              repCount: 5,
-              weight: 100,
-              notes: "This is a note",
-            },
-            {
-              id: 6,
-              isAmrap: true,
-              repCount: 5,
-              weight: 100,
-              notes: "This is a note",
-            },
-          ],
-        },
-      ],
-    },
-  ],
-};
+import { useParams } from "react-router-dom";
+import workoutData from "../../constants";
 
 const Workout = () => {
-  const [day1, setDay1] = useState(workoutData.days[0]);
+  const getCurrentDay = (id: number) => {
+    const day = workoutData.days.find((day) => day.id === id);
+    if (day === undefined) {
+      throw new Error("Day not found");
+    }
+    return day;
+  };
+  const { id } = useParams();
+  const [currentDay, setCurrentDay] = useState(
+    id ? getCurrentDay(parseInt(id)) : null
+  );
+
   const handleSubmit = (
     repsSubmitted: number,
     excerciseId: number,
     setId: number
   ) => {
-    const updatedExercises = day1.exercises.map((exercise) => {
+    if (!currentDay) {
+      return;
+    }
+    const updatedExercises = currentDay.exercises.map((exercise) => {
       if (exercise.id === excerciseId) {
         const updatedSets = exercise.sets.map((set) => {
           if (set.id === setId) {
@@ -102,13 +36,16 @@ const Workout = () => {
       }
       return exercise;
     });
-    setDay1({ ...day1, exercises: updatedExercises });
+    setCurrentDay({ ...currentDay, exercises: updatedExercises });
   };
-  console.log("day1 is " + JSON.stringify(day1));
+
+  if (!currentDay) {
+    return <h1>Day not found</h1>;
+  }
   return (
     <div>
-      <h1>{workoutData.name}</h1>
-      <Day day={day1} handleRepChange={handleSubmit} />
+      <h1>{currentDay.name}</h1>
+      <Day day={currentDay} handleRepChange={handleSubmit} />
     </div>
   );
 };

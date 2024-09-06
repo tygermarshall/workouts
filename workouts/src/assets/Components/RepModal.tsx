@@ -19,10 +19,12 @@ const RepModal = ({
   handleSubmit,
   ...props
 }: Props) => {
-  const [repsSubmitted, setRepsSubmitted] = useState(repsActual);
+  const [repsSubmitted, setRepsSubmitted] = useState(initalCount);
 
   const handleRepSubmit = () => {
-    setRepsSubmitted(repsActual);
+    if (repsActual) {
+      setRepsSubmitted(repsActual);
+    }
     if (repsSubmitted) {
       handleSubmit(repsSubmitted);
     }

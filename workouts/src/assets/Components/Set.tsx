@@ -17,7 +17,6 @@ const Set = ({ set, handleRepChange }: Props) => {
   const handleSubmit = (repsSubmitted: number) => {
     handleClose();
     handleRepChange(repsSubmitted, set.id);
-    console.log("submitting");
   };
   const repCountText = () => {
     if (set.isAmrap && set.repsActual) {
