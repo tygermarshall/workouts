@@ -6,7 +6,6 @@ import ReactDOM from "react-dom/client";
 import React from "react";
 import Workout from "./assets/Components/Workout.tsx";
 import NavBar from "./assets/Components/NavBar.tsx";
-import workoutData from "./constants.tsx";
 import WorkoutPreviewContainer from "./assets/Components/WorkoutPreviewContainer.tsx";
 
 const router = createBrowserRouter([
@@ -20,7 +19,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/workout/:id",
-    element: <Workout day={workoutData.days[0]} />,
+    element: <Workout />,
   },
 ]);
 
